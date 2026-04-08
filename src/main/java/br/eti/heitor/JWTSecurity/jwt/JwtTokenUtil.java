@@ -5,7 +5,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
 import java.util.Base64;
@@ -37,6 +36,7 @@ public class JwtTokenUtil {
     public String generateAcessToken(User user) {
         byte[] keyBytes = Base64.getDecoder().decode(SECRET_KEY);
         SecretKey secretKey = Keys.hmacShaKeyFor(keyBytes);
+        
         return Jwts.builder()
                 .subject(String.format("%s,%s", user.getId(), user.getEmail()))
                 .issuer("ProfKGe")
@@ -50,6 +50,7 @@ public class JwtTokenUtil {
         try {
             byte[] keyBytes = Base64.getDecoder().decode(SECRET_KEY);
             SecretKey secretKey = Keys.hmacShaKeyFor(keyBytes);
+            
             // Caso falhar é lançada uma exception.
             Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token);
         
@@ -63,11 +64,13 @@ public class JwtTokenUtil {
             LOGGER.error("JWT is invalid", ex);
         } catch (UnsupportedJwtException ex) {
             LOGGER.error("JWT is not supported", ex);
-        } catch (SignatureException ex) {
+        } catch (io.jsonwebtoken.JwtException ex) {
             LOGGER.error("Signature validation failed");
         }   
             return false;
  
+    }
+    
     public String getSubject(String token) {
         return parseClaims(token).getSubject();
     }
