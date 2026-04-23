@@ -1,6 +1,7 @@
 package br.eti.heitor.JWTSecurity.controller;
 
 import br.eti.heitor.JWTSecurity.entities.AuthRequestDTO;
+import br.eti.heitor.JWTSecurity.entities.AuthResponse;
 import br.eti.heitor.JWTSecurity.entities.User;
 import br.eti.heitor.JWTSecurity.jwt.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
