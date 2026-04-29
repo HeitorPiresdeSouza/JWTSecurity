@@ -1,6 +1,7 @@
 package br.eti.heitor.JWTSecurity.entities;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -13,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  *
  * @author sesi3dia
  */
+@Entity
 public class User implements UserDetails {
 
     @Id
