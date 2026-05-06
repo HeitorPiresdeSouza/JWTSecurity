@@ -19,7 +19,6 @@ import org.springframework.stereotype.Component;
  *
  * @author sesi3dia
  */
-
 @Component
 public class JwtTokenUtil {
 
@@ -29,14 +28,15 @@ public class JwtTokenUtil {
     @Value("${app.jwt.secret}")
     private String SECRET_KEY;
 
-    private static final Logger LOGGER  = LoggerFactory.getLogger(JwtTokenUtil.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenUtil.class);
 
     public String generateAcessToken(User user) {
         byte[] keyBytes = Base64.getDecoder().decode(SECRET_KEY);
         SecretKey secretKey = Keys.hmacShaKeyFor(keyBytes);
-        
+
         return Jwts.builder()
                 .subject(String.format("%s,%s", user.getId(), user.getEmail()))
+                .claim("roles", user.getRoles())
                 .issuer("ProfKGe")
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + EXPIRE_DURATION))
@@ -48,12 +48,12 @@ public class JwtTokenUtil {
         try {
             byte[] keyBytes = Base64.getDecoder().decode(SECRET_KEY);
             SecretKey secretKey = Keys.hmacShaKeyFor(keyBytes);
-            
+
             // Caso falhar é lançada uma exception.
             Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token);
-        
+
             return true;
-        
+
         } catch (ExpiredJwtException ex) {
             LOGGER.error("JWT expired", ex.getMessage());
         } catch (IllegalArgumentException ex) {
@@ -64,18 +64,23 @@ public class JwtTokenUtil {
             LOGGER.error("JWT is not supported", ex);
         } catch (io.jsonwebtoken.JwtException ex) {
             LOGGER.error("Signature validation failed");
-        }   
-            return false;
- 
+        }
+        return false;
+
     }
-    
+
     public String getSubject(String token) {
         return parseClaims(token).getSubject();
     }
+
+    public String getRoles(String token) {
+        return (String) parseClaims(token).get("roles");
+    }
+
     private Claims parseClaims(String token) {
         byte[] keyBytes = Base64.getDecoder().decode(SECRET_KEY);
-         SecretKey secretKey = Keys.hmacShaKeyFor(keyBytes);
-                return Jwts.parser()
+        SecretKey secretKey = Keys.hmacShaKeyFor(keyBytes);
+        return Jwts.parser()
                 .verifyWith(secretKey).build()
                 .parseSignedClaims(token)
                 .getPayload();

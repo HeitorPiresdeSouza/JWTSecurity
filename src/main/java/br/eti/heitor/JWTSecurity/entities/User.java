@@ -5,9 +5,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.stream.Collectors;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
@@ -15,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  * @author sesi3dia
  */
 @Entity
+@Table(name = "users")
 public class User implements UserDetails {
 
     @Id
@@ -27,12 +32,25 @@ public class User implements UserDetails {
     @Column(nullable = false, length = 64)
     private String password;
 
+    @Column(nullable = false)
+    private String roles;
+
     public User() {
     }
 
-    public User(String email, String password) {
+    public User(Integer id, String email, String password, String roles) {
+        this.id = id;
         this.email = email;
         this.password = password;
+        this.roles = roles;
+    }
+
+    public String getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
     }
 
     public Integer getId() {
@@ -62,40 +80,43 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // Se você ainda não implementou perfis/roles, retorne uma lista vazia.
-        return Collections.emptyList();
+        // return Collections.emptyList();
 
-        // Se já tiver roles, certifique-se de convertê-las para SimpleGrantedAuthority(DESAFIO!)
-        /*
-        return this.roles.stream()
-        .map(role -> new SimpleGrantedAuthority(role.getName()))
-        .collect(Collectors.toList());
-        */
- }
-    
+        if (this.roles == null || this.roles.isBlank()) {
+            return Collections.emptyList();
+            // TODO: Gerar regra de negócio quando não tiver roles
+            // demarcadas ou usar USER como default.
+        }
+
+        return Arrays.stream(this.roles.split(","))
+                .map(String::trim)
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+    }
+
     @Override
     public String getUsername() {
         return this.email;
     }
-    
+
     @Override
-    public boolean isAccountNonExpired(){
+    public boolean isAccountNonExpired() {
         return true;
     }
-    
+
     @Override
-    public boolean isAccountNonLocked(){
+    public boolean isAccountNonLocked() {
         return true;
     }
-    
+
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
-    
+
     @Override
     public boolean isEnabled() {
         return true;
     }
 
-    
 }
