@@ -73,6 +73,8 @@ public class AplicationSecurity {
         http.authorizeHttpRequests((authz) -> authz
                 .requestMatchers("/auth/login", "/docs/**", "/public").permitAll()
                 .requestMatchers("/error").permitAll()
+                .requestMatchers("/private").hasAnyRole("USER", "ADMIN")
+                .requestMatchers("/manager").hasRole("ADMIN")
                 .anyRequest().authenticated()
         );
 
