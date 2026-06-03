@@ -1,9 +1,9 @@
-package br.eti.heitor.JWTSecurity.controller;
+package br.eti.heitor.JWTSecurity.security.controller;
 
-import br.eti.heitor.JWTSecurity.entities.AuthRequestDTO;
-import br.eti.heitor.JWTSecurity.entities.AuthResponse;
-import br.eti.heitor.JWTSecurity.entities.User;
-import br.eti.heitor.JWTSecurity.jwt.JwtTokenUtil;
+import br.eti.heitor.JWTSecurity.security.entities.AuthRequestDTO;
+import br.eti.heitor.JWTSecurity.security.entities.AuthResponse;
+import br.eti.heitor.JWTSecurity.security.entities.User;
+import br.eti.heitor.JWTSecurity.security.jwt.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

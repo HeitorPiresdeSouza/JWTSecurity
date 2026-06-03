@@ -1,4 +1,4 @@
-package br.eti.heitor.JWTSecurity.controller;
+package br.eti.heitor.JWTSecurity.security.controller;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +33,7 @@ public class MyController {
     }
     
     //Todos podem ter acesso
-    @RequestMapping("/public")
+    @GetMapping("/public")
     public Map<String, Object> publicEndpoint() {
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("id", UUID.randomUUID().toString());

@@ -1,4 +1,4 @@
-package br.eti.heitor.JWTSecurity.entities;
+package br.eti.heitor.JWTSecurity.security.entities;
 
 public class AuthResponse {
     private String email;

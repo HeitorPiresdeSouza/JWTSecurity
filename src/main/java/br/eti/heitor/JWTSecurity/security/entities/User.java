@@ -1,4 +1,4 @@
-package br.eti.heitor.JWTSecurity.entities;
+package br.eti.heitor.JWTSecurity.security.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

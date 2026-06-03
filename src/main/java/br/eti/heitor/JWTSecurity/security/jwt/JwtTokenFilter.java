@@ -1,6 +1,6 @@
-package br.eti.heitor.JWTSecurity.jwt;
+package br.eti.heitor.JWTSecurity.security.jwt;
 
-import br.eti.heitor.JWTSecurity.entities.User;
+import br.eti.heitor.JWTSecurity.security.entities.User;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

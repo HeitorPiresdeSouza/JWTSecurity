@@ -1,7 +1,7 @@
 package br.eti.heitor.JWTSecurity.security;
 
-import br.eti.heitor.JWTSecurity.jwt.JwtTokenFilter;
-import br.eti.heitor.JWTSecurity.repository.UserRepository;
+import br.eti.heitor.JWTSecurity.security.jwt.JwtTokenFilter;
+import br.eti.heitor.JWTSecurity.security.repository.UserRepository;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

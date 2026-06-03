@@ -1,4 +1,4 @@
-package br.eti.heitor.JWTSecurity.entities;
+package br.eti.heitor.JWTSecurity.security.entities;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
